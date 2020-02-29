@@ -2,7 +2,7 @@ from __future__ import division
 
 gestos = []  # lista de gestos
 gesto = []  # lista de pontos, tuplas (x, y)
-select_gesto = -1  # -1 significa nenhum gesto selecionado
+gesto_selecionado = -1  # -1 significa nenhum gesto selecionado
 
 def setup():
     size(500, 500)
@@ -24,7 +24,7 @@ def draw():
         quad(xi + dx, yi + dy, xi - dx, yi - dy,
              xf - dx, yf - dy, xf + dx, yf + dy)
     for i, gesto in enumerate(gestos):
-        if i == select_gesto:
+        if i == gesto_selecionado:
             stroke(200, 0, 0)
         else:
             stroke(0)
@@ -33,24 +33,24 @@ def draw():
                  xf - dx, yf - dy, xf + dx, yf + dy)
 
 def mousePressed():
-    global select_gesto
+    global gesto_selecionado
     if keyPressed and keyCode == SHIFT:
         for i, gesto in enumerate(gestos):
             for x, y in gesto:
                 if dist(x, y, mouseX, mouseY) < 10:
-                    select_gesto = i
+                    gesto_selecionado = i
                     return
-        select_gesto = -1  # deixa nenhum gesto selecionado
+        gesto_selecionado = -1  # deixa nenhum gesto selecionado
 
 def mouseDragged():
     if not keyPressed:
         # if frameCount % 2 == 0:
             gesto.append((mouseX, mouseY))
-    if key == 'm':
-        if select_gesto >= 0:
+    elif key == 'm':
+        if gesto_selecionado >= 0:
             dx = mouseX - pmouseX
             dy = mouseY - pmouseY
-            sel_gesto = gestos[select_gesto]
+            sel_gesto = gestos[gesto_selecionado]
             for i, (x, y) in enumerate(sel_gesto):
                 sel_gesto[i] = (x + dx, y + dy)
 
@@ -67,22 +67,22 @@ def mouseReleased():
     gesto[:] = []  # esvazia a lista gesto original
 
 def keyPressed():
-    global select_gesto
+    global gesto_selecionado
     if key == 's':
         saveFrame("####.png")
     if key == ' ':
         gestos[:] = []  # esvazia a lista gestos
 
-    if key == 'r' and select_gesto >= 0:
-        gestos.pop(select_gesto)
-        select_gesto = -1
+    if key == 'r' and gesto_selecionado >= 0:
+        gestos.pop(gesto_selecionado)
+        gesto_selecionado = -1
 
-    if key == 'd' and select_gesto >= 0:
-        new_gesto = gestos[select_gesto][:]
+    if key == 'd' and gesto_selecionado >= 0:
+        new_gesto = gestos[gesto_selecionado][:]
         for i, (x, y) in enumerate(new_gesto):
             new_gesto[i] = (x + 20, y + 20)
         gestos.append(new_gesto)
-        select_gesto = len(gestos) - 1
+        gesto_selecionado = len(gestos) - 1
 
     if key == 'z' and len(gestos) > 0:
         gestos.pop()  # apaga o último gesto
