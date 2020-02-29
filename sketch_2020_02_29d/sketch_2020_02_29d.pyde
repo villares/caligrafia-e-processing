@@ -56,7 +56,8 @@ def mouseDragged():
 
 
 def mouseReleased():
-    for _ in range(4):
+    nivel_ajuste = 4
+    for _ in range(nivel_ajuste):
         for i, (x, y) in enumerate(gesto[:-2]):
             xs, ys = gesto[i + 1]
             xm, ym = (x + xs) / 2., (y + ys) / 2.
