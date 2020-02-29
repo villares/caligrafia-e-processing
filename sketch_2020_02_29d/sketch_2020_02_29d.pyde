@@ -16,15 +16,18 @@ def draw():
     largura = 30
     dx, dy = 0.87 * largura, -0.5 * largura
 
-    if not mousePressed:
+    if not mousePressed or keyPressed:
         background(200)
     else:
         xi, yi = pmouseX, pmouseY
         xf, yf = mouseX, mouseY
         quad(xi + dx, yi + dy, xi - dx, yi - dy,
              xf - dx, yf - dy, xf + dx, yf + dy)
-
     for i, gesto in enumerate(gestos):
+        if i == select_gesto:
+            stroke(200, 0, 0)
+        else:
+            stroke(0)
         for (xi, yi), (xf, yf) in zip(gesto[:-1], gesto[1:]):
             quad(xi + dx, yi + dy, xi - dx, yi - dy,
                  xf - dx, yf - dy, xf + dx, yf + dy)
