@@ -45,7 +45,7 @@ def mousePressed():
 
 def mouseDragged():
     if not keyPressed:
-        if dist(mouseX, mouseY, pmouseX, pmouseY) < 2:
+        if dist(mouseX, mouseY, pmouseX, pmouseY) > 2:
             gesto.append((mouseX, mouseY))
             encavalou = False
         else:
