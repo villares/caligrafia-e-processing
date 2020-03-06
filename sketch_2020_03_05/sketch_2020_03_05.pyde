@@ -3,7 +3,7 @@ from __future__ import division
 gestos = []  # lista de gestos
 gesto = []  # lista de pontos, tuplas (x, y)
 gesto_selecionado = -1  # -1 significa nenhum gesto selecionado
-
+encavalou = False
 
 def setup():
     size(500, 500)
@@ -57,9 +57,13 @@ def mousePressed():
         gesto_selecionado = -1  # deixa nenhum gesto selecionado
 
 def mouseDragged():
+    global encavalou
     if not keyPressed:
-        # if frameCount % 2 == 0:
+        if dist(mouseX, mouseY, pmouseX, pmouseY) < 2:
             gesto.append((mouseX, mouseY))
+            encavalou = False
+        else:
+            encavalou = True
     #para mover o gesto selecionado 
     elif key == 'm':
         if gesto_selecionado >= 0:
@@ -72,6 +76,10 @@ def mouseDragged():
 
 
 def mouseReleased():
+    global encavalou
+    if encavalou:
+        gesto.append((mouseX, mouseY))
+        ecavalou = False
     nivel_ajuste = 20
     for _ in range(nivel_ajuste):
         for i, (x, y) in enumerate(gesto[:-2]):
